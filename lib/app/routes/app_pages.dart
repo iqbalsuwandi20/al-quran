@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/detail_surah_screen/bindings/detail_surah_screen_binding.dart';
+import '../modules/detail_surah_screen/views/detail_surah_screen_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/introduction_screen/bindings/introduction_screen_binding.dart';
@@ -21,6 +23,12 @@ class AppPages {
       name: _Paths.INTRODUCTION_SCREEN,
       page: () => const IntroductionScreenView(),
       binding: IntroductionScreenBinding(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: _Paths.DETAIL_SURAH_SCREEN,
+      page: () => const DetailSurahScreenView(),
+      binding: DetailSurahScreenBinding(),
       transition: Transition.fadeIn,
     ),
   ];
