@@ -1,0 +1,5 @@
+package com.iqbal.alquran
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity()
