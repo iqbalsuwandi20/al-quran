@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../data/models/surah.dart';
 import '../../../routes/app_pages.dart';
@@ -11,18 +12,21 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Home',
-          style: TextStyle(
+        title: Text(
+          'UTAMA',
+          style: GoogleFonts.poppins(
             color: Colors.white,
+            fontSize: screenWidth * 0.05,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         backgroundColor: Colors.pink[700],
+        elevation: 8,
       ),
       body: FutureBuilder<List<Surah>>(
         future: controller.getAllSurah(),
@@ -38,7 +42,8 @@ class HomeView extends GetView<HomeController> {
             return Center(
               child: Text(
                 "Terjadi kesalahan: ${snapshot.error}",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: screenWidth * 0.04),
               ),
             );
           }
@@ -46,13 +51,15 @@ class HomeView extends GetView<HomeController> {
             return Center(
               child: Text(
                 "Mohon maaf tidak ada data!",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: screenWidth * 0.04),
               ),
             );
           }
 
           return ListView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+            padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.02, horizontal: screenWidth * 0.04),
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               Surah surah = snapshot.data![index];
@@ -61,9 +68,9 @@ class HomeView extends GetView<HomeController> {
                   Get.toNamed(Routes.DETAIL_SURAH_SCREEN, arguments: surah);
                 },
                 child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
+                  duration: Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
-                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  margin: EdgeInsets.symmetric(vertical: screenHeight * 0.015),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [Colors.pink[200]!, Colors.pink[400]!],
@@ -90,28 +97,29 @@ class HomeView extends GetView<HomeController> {
                             style: TextStyle(
                               color: Colors.pink[700],
                               fontWeight: FontWeight.bold,
+                              fontSize: screenWidth * 0.05,
                             ),
                           ),
                         ),
-                        SizedBox(width: screenWidth * 0.04),
+                        SizedBox(width: screenWidth * 0.05),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 surah.name.transliteration.id,
-                                style: TextStyle(
-                                  fontSize: screenWidth * 0.05,
+                                style: GoogleFonts.poppins(
+                                  fontSize: screenWidth * 0.06,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black87,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: screenHeight * 0.01),
                               Text(
                                 "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
                                 style: TextStyle(
                                   color: Colors.grey[800],
-                                  fontSize: screenWidth * 0.035,
+                                  fontSize: screenWidth * 0.04,
                                 ),
                               ),
                             ],
@@ -119,8 +127,8 @@ class HomeView extends GetView<HomeController> {
                         ),
                         Text(
                           surah.name.short,
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.045,
+                          style: GoogleFonts.poppins(
+                            fontSize: screenWidth * 0.05,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                           ),

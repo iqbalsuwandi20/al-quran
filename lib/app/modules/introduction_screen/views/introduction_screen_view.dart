@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../routes/app_pages.dart';
@@ -21,14 +22,14 @@ class IntroductionScreenView extends GetView<IntroductionScreenController> {
           children: [
             Text(
               "Ayo Membaca Al-Qur'an",
-              style: TextStyle(
-                fontSize: size.width * 0.07,
+              style: GoogleFonts.poppins(
+                color: Colors.black,
+                fontSize: size.width * 0.08,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: size.height * 0.02),
+            SizedBox(height: size.height * 0.03),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
               child: Text(
@@ -44,12 +45,12 @@ class IntroductionScreenView extends GetView<IntroductionScreenController> {
             SizedBox(height: size.height * 0.04),
             Center(
               child: SizedBox(
-                width: size.width * 0.6,
-                height: size.width * 0.6,
+                width: size.width * 0.7,
+                height: size.width * 0.7,
                 child: Lottie.asset("assets/lotties/introduction.json"),
               ),
             ),
-            SizedBox(height: size.height * 0.04),
+            SizedBox(height: size.height * 0.05),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
               child: ElevatedButton(

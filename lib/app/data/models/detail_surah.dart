@@ -44,7 +44,7 @@ class Data {
   Name name;
   Revelation revelation;
   DataTafsir tafsir;
-  PreBismillah preBismillah;
+  PreBismillah? preBismillah;
   List<Verse> verses;
 
   Data({
@@ -65,7 +65,9 @@ class Data {
         name: Name.fromJson(json["name"]),
         revelation: Revelation.fromJson(json["revelation"]),
         tafsir: DataTafsir.fromJson(json["tafsir"]),
-        preBismillah: PreBismillah.fromJson(json["preBismillah"]),
+        preBismillah: json["preBismillah"] != null
+            ? PreBismillah.fromJson(json["preBismillah"])
+            : null,
         verses: List<Verse>.from(json["verses"].map((x) => Verse.fromJson(x))),
       );
 
@@ -76,7 +78,7 @@ class Data {
         "name": name.toJson(),
         "revelation": revelation.toJson(),
         "tafsir": tafsir.toJson(),
-        "preBismillah": preBismillah.toJson(),
+        "preBismillah": preBismillah?.toJson(),
         "verses": List<dynamic>.from(verses.map((x) => x.toJson())),
       };
 }

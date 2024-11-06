@@ -27,7 +27,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_SURAH_SCREEN,
-      page: () => const DetailSurahScreenView(),
+      page: () => DetailSurahScreenView(),
       binding: DetailSurahScreenBinding(),
       transition: Transition.fadeIn,
     ),
