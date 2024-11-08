@@ -14,6 +14,7 @@ class IntroductionScreenView extends GetView<IntroductionScreenController> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Color(0xFFFAF8FC),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
         child: Column(
@@ -23,7 +24,7 @@ class IntroductionScreenView extends GetView<IntroductionScreenController> {
             Text(
               "Ayo Membaca Al-Qur'an",
               style: GoogleFonts.poppins(
-                color: Colors.black,
+                color: Colors.pink[700],
                 fontSize: size.width * 0.08,
                 fontWeight: FontWeight.bold,
               ),
@@ -66,10 +67,10 @@ class IntroductionScreenView extends GetView<IntroductionScreenController> {
                 onPressed: () => Get.offAllNamed(Routes.HOME),
                 child: Text(
                   "MULAI",
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
                     fontSize: size.width * 0.05,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

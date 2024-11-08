@@ -16,6 +16,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Color(0xFFFAF8FC),
       appBar: AppBar(
         title: Text(
           'SURAH ${surah.name.transliteration.id.toUpperCase()}',
@@ -156,7 +157,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                     style: TextStyle(
                                       color: Colors.pink,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: width * 0.06,
+                                      fontSize: width * 0.05,
                                     ),
                                   ),
                                 ),
