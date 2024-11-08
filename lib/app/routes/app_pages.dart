@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/detail_juz_screen/bindings/detail_juz_screen_binding.dart';
+import '../modules/detail_juz_screen/views/detail_juz_screen_view.dart';
 import '../modules/detail_surah_screen/bindings/detail_surah_screen_binding.dart';
 import '../modules/detail_surah_screen/views/detail_surah_screen_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -46,6 +48,11 @@ class AppPages {
       page: () => const LastReadScreenView(),
       binding: LastReadScreenBinding(),
       transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: _Paths.DETAIL_JUZ_SCREEN,
+      page: () => const DetailJuzScreenView(),
+      binding: DetailJuzScreenBinding(),
     ),
   ];
 }

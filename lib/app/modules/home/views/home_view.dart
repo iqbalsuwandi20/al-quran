@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../data/models/juz.dart' as juz;
 import '../../../data/models/surah.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
@@ -30,8 +31,17 @@ class HomeView extends GetView<HomeController> {
         elevation: 8,
         actions: [
           IconButton(
-            onPressed: () => Get.toNamed(Routes.SEARCH_SCREEN),
-            icon: Icon(Icons.search_outlined, color: Colors.white),
+            onPressed: () {
+              Routes.SEARCH_SCREEN;
+            },
+            icon: AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              child: Icon(
+                Icons.search_outlined,
+                key: ValueKey<int>(1),
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),
@@ -268,72 +278,148 @@ class HomeView extends GetView<HomeController> {
                         );
                       },
                     ),
-                    ListView.builder(
-                      itemCount: 30,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 300),
-                            margin: EdgeInsets.symmetric(
-                                vertical: screenHeight * 0.015),
-                            padding: EdgeInsets.all(screenWidth * 0.04),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Colors.pink[200]!, Colors.pink[400]!],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
+                    FutureBuilder<List<juz.Juz>>(
+                      future: controller.getAllJuz(),
+                      builder: (context, snapshot) {
+                        final double screenWidth =
+                            MediaQuery.of(context).size.width;
+                        final double screenHeight =
+                            MediaQuery.of(context).size.height;
+
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                                color: Colors.pink[700]),
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(
+                              "Terjadi kesalahan: ${snapshot.error}",
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.bold,
+                                fontSize: screenWidth * 0.045,
                               ),
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.pink.withOpacity(0.2),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 4),
-                                ),
-                              ],
                             ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image:
-                                          AssetImage("assets/images/list.png"),
-                                    ),
+                          );
+                        }
+                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "Mohon maaf tidak ada data!",
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.bold,
+                                fontSize: screenWidth * 0.045,
+                              ),
+                            ),
+                          );
+                        }
+
+                        return ListView.builder(
+                          padding: EdgeInsets.symmetric(
+                              vertical: screenHeight * 0.02),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            juz.Juz detailJuz = snapshot.data![index];
+                            return GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  Routes.DETAIL_JUZ_SCREEN,
+                                  arguments: detailJuz,
+                                );
+                              },
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 300),
+                                margin: EdgeInsets.symmetric(
+                                    vertical: screenHeight * 0.015),
+                                padding: EdgeInsets.all(screenWidth * 0.04),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.pink[200]!,
+                                      Colors.pink[400]!,
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      "${index + 1}",
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.pink[700],
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: screenWidth * 0.045,
-                                      ),
+                                  borderRadius: BorderRadius.circular(25),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.pink.withOpacity(0.2),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 4),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                                SizedBox(width: screenWidth * 0.04),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Juz ${index + 1}",
-                                        style: GoogleFonts.poppins(
-                                          fontSize: screenWidth * 0.055,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black87,
+                                child: Row(
+                                  children: [
+                                    AnimatedContainer(
+                                      duration: Duration(milliseconds: 300),
+                                      width: screenWidth * 0.15,
+                                      height: screenWidth * 0.15,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/images/list.png"),
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                      child: Center(
+                                        child: Text(
+                                          "${index + 1}",
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.pink[700],
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: screenWidth * 0.08,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: screenWidth * 0.04),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Juz ${index + 1}",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: screenWidth * 0.06,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                          SizedBox(height: screenHeight * 0.01),
+                                          Text(
+                                            "Awal surat: ${detailJuz.data.juzStartInfo}",
+                                            style: TextStyle(
+                                              color: Colors.grey[900],
+                                              fontSize: screenWidth * 0.04,
+                                            ),
+                                          ),
+                                          SizedBox(height: screenHeight * 0.01),
+                                          Text(
+                                            "Akhir surat: ${detailJuz.data.juzEndInfo}",
+                                            style: GoogleFonts.poppins(
+                                              fontSize: screenWidth * 0.04,
+                                              color: Colors.grey[900],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.white,
+                                      size: screenWidth * 0.05,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         );
                       },
                     ),
