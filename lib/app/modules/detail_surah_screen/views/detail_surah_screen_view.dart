@@ -14,6 +14,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Color(0xFFFAF8FC),
@@ -53,52 +54,106 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
           ),
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(width * 0.05),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Card(
-                  elevation: 8,
-                  shadowColor: Colors.pink[200],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                child: GestureDetector(
+                  onTap: () => Get.defaultDialog(
+                    title:
+                        "TAFSIR ${surah.name.transliteration.id.toUpperCase()}",
+                    titleStyle: GoogleFonts.poppins(
+                      color: Colors.pink[700],
+                      fontSize: width * 0.05,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    backgroundColor: Colors.pink[50],
+                    radius: 20,
+                    content: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: height * 0.7,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Container(
+                          width: width * 0.9,
+                          padding: EdgeInsets.all(width * 0.04),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.pink[50]!, Colors.white],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(width * 0.02),
+                                child: Text(
+                                  surah.tafsir.id,
+                                  textAlign: TextAlign.justify,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.black87,
+                                    fontSize: width * 0.045,
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                color: Colors.pink[200],
+                                thickness: 1.5,
+                                indent: width * 0.1,
+                                endIndent: width * 0.1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          surah.name.transliteration.id.toUpperCase(),
-                          style: GoogleFonts.poppins(
-                            fontSize: width * 0.08,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.pink[800],
+                  child: Card(
+                    elevation: 8,
+                    shadowColor: Colors.pink[200],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(width * 0.05),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            surah.name.transliteration.id.toUpperCase(),
+                            style: GoogleFonts.poppins(
+                              fontSize: width * 0.08,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.pink[800],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          "( ${surah.name.translation.id.toUpperCase()} )",
-                          style: GoogleFonts.poppins(
-                            fontSize: width * 0.06,
-                            color: Colors.grey[600],
+                          SizedBox(height: height * 0.02),
+                          Text(
+                            "( ${surah.name.translation.id.toUpperCase()} )",
+                            style: GoogleFonts.poppins(
+                              fontSize: width * 0.06,
+                              color: Colors.grey[600],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
-                          style: TextStyle(
-                            fontSize: width * 0.04,
-                            color: Colors.grey[700],
+                          SizedBox(height: height * 0.02),
+                          Text(
+                            "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
+                            style: TextStyle(
+                              fontSize: width * 0.04,
+                              color: Colors.grey[700],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 25),
+              SizedBox(height: height * 0.05),
               FutureBuilder<detail.DetailSurah>(
                 future: controller.getDetailSurah(surah.number.toString()),
                 builder: (context, snapshot) {
@@ -131,8 +186,8 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                       detail.Verse verse = dataSurah.verses[index];
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        padding: const EdgeInsets.all(15),
+                        margin: EdgeInsets.symmetric(vertical: height * 0.01),
+                        padding: EdgeInsets.all(width * 0.04),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
@@ -150,14 +205,24 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.pink[100],
-                                  child: Text(
-                                    "${verse.number.inSurah}",
-                                    style: TextStyle(
-                                      color: Colors.pink,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: width * 0.05,
+                                Container(
+                                  height: width * 0.12,
+                                  width: width * 0.12,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image:
+                                          AssetImage("assets/images/list.png"),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "${verse.number.inSurah}",
+                                      style: TextStyle(
+                                        color: Colors.pink,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: width * 0.05,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -181,7 +246,14 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: height * 0.02),
+                            Divider(
+                              color: Colors.pink[200],
+                              thickness: 1.5,
+                              indent: width * 0.1,
+                              endIndent: width * 0.1,
+                            ),
+                            SizedBox(height: height * 0.02),
                             Text(
                               verse.text.arab,
                               textAlign: TextAlign.end,
@@ -191,7 +263,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                 color: Colors.black87,
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: height * 0.01),
                             Text(
                               verse.text.transliteration.en,
                               textAlign: TextAlign.end,
@@ -201,7 +273,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                 fontStyle: FontStyle.italic,
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: height * 0.02),
                             Text(
                               verse.translation.id,
                               textAlign: TextAlign.justify,

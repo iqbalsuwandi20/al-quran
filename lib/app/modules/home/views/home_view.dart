@@ -268,6 +268,75 @@ class HomeView extends GetView<HomeController> {
                         );
                       },
                     ),
+                    ListView.builder(
+                      itemCount: 30,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          child: AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
+                            margin: EdgeInsets.symmetric(
+                                vertical: screenHeight * 0.015),
+                            padding: EdgeInsets.all(screenWidth * 0.04),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.pink[200]!, Colors.pink[400]!],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.pink.withOpacity(0.2),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image:
+                                          AssetImage("assets/images/list.png"),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "${index + 1}",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.pink[700],
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: screenWidth * 0.045,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: screenWidth * 0.04),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Juz ${index + 1}",
+                                        style: GoogleFonts.poppins(
+                                          fontSize: screenWidth * 0.055,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     Center(child: Text("Penanda Section")),
                   ],
                 ),
