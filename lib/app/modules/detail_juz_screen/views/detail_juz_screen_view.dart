@@ -66,132 +66,173 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
               );
             }
             juz.Verse ayat = detailJuz.data.verses[index];
-            if (index != 0 && ayat.number.inSurah == 1) {
-              controller.index++;
-            }
 
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: height * 0.01),
-              padding: EdgeInsets.all(width * 0.04),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.pink[100]!.withOpacity(0.5),
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
+            Widget surahMarker;
+            if (index == 0 || ayat.number.inSurah == 1) {
+              surahMarker = Column(
+                children: [
+                  Center(
+                    child: Card(
+                      elevation: 8,
+                      shadowColor: Colors.pink[200],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(width * 0.05),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              allSurahInThisJuz[controller.index]
+                                  .name
+                                  .transliteration
+                                  .id
+                                  .toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                fontSize: width * 0.08,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.pink[800],
+                              ),
+                            ),
+                            SizedBox(height: height * 0.02),
+                            Text(
+                              "${allSurahInThisJuz[controller.index].numberOfVerses} Ayat | ${allSurahInThisJuz[controller.index].revelation.id}",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: width * 0.04,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: width * 0.12,
-                            width: width * 0.12,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/list.png"),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "${ayat.number.inSurah}",
-                                style: GoogleFonts.poppins(
-                                  color: Colors.pink,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: width * 0.05,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: width * 0.05),
-                          Text(
-                            allSurahInThisJuz[controller.index]
-                                .name
-                                .transliteration
-                                .id
-                                .toUpperCase(),
-                            style: GoogleFonts.poppins(
-                              fontSize: width * 0.045,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.bookmark_add_outlined,
-                              color: Colors.pink[700],
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.play_arrow_outlined,
-                              color: Colors.pink[700],
-                            ),
-                          ),
-                        ],
+              );
+              controller.index++;
+            } else {
+              surahMarker = SizedBox.shrink();
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                surahMarker,
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: height * 0.01),
+                  padding: EdgeInsets.all(width * 0.04),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.pink[100]!.withOpacity(0.5),
+                        blurRadius: 10,
+                        offset: Offset(0, 5),
                       ),
                     ],
                   ),
-                  Divider(
-                    color: Colors.pink[200],
-                    thickness: 1.5,
-                    indent: width * 0.1,
-                    endIndent: width * 0.1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                height: width * 0.12,
+                                width: width * 0.12,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage("assets/images/list.png"),
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "${ayat.number.inSurah}",
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.pink,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: width * 0.05,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.bookmark_add_outlined,
+                                  color: Colors.pink[700],
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.play_arrow_outlined,
+                                  color: Colors.pink[700],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        color: Colors.pink[200],
+                        thickness: 1.5,
+                        indent: width * 0.1,
+                        endIndent: width * 0.1,
+                      ),
+                      SizedBox(height: height * 0.02),
+                      Text(
+                        ayat.text.arab,
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          fontSize: width * 0.10,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      SizedBox(height: height * 0.01),
+                      Text(
+                        ayat.text.transliteration.en,
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          fontSize: width * 0.05,
+                          color: Colors.grey[600],
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      SizedBox(height: height * 0.02),
+                      Text(
+                        ayat.translation.id,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: width * 0.05,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      SizedBox(height: height * 0.02),
+                      Text(
+                        ayat.translation.en,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: width * 0.05,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: height * 0.02),
-                  Text(
-                    ayat.text.arab,
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      fontSize: width * 0.10,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  SizedBox(height: height * 0.01),
-                  Text(
-                    ayat.text.transliteration.en,
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      fontSize: width * 0.05,
-                      color: Colors.grey[600],
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                  SizedBox(height: height * 0.02),
-                  Text(
-                    ayat.translation.id,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: width * 0.05,
-                      color: Colors.black54,
-                    ),
-                  ),
-                  SizedBox(height: height * 0.02),
-                  Text(
-                    ayat.translation.en,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: width * 0.05,
-                      color: Colors.black54,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         ),

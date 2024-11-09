@@ -133,7 +133,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                           ),
                           SizedBox(height: height * 0.02),
                           Text(
-                            "( ${surah.name.translation.id.toUpperCase()} )",
+                            surah.name.translation.id.toUpperCase(),
                             style: GoogleFonts.poppins(
                               fontSize: width * 0.06,
                               color: Colors.grey[600],
