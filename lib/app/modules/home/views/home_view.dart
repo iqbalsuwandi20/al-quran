@@ -57,7 +57,7 @@ class HomeView extends GetView<HomeController> {
                 "Assalamu'alaikum",
                 style: GoogleFonts.poppins(
                   fontSize: screenWidth * 0.055,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                   color: Colors.pink[700],
                 ),
               ),
@@ -264,7 +264,7 @@ class HomeView extends GetView<HomeController> {
                                     ),
                                     Text(
                                       surah.name.short,
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.amiri(
                                         fontSize: screenWidth * 0.05,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -322,11 +322,38 @@ class HomeView extends GetView<HomeController> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             juz.Juz detailJuz = snapshot.data![index];
+
+                            String startName =
+                                detailJuz.data.juzStartInfo.split(" - ").first;
+                            String endName =
+                                detailJuz.data.juzEndInfo.split(" - ").first;
+
+                            List<Surah> allSurahInJuz = [];
+                            List<Surah> rawAllSurahInJuz = [];
+
+                            for (var item in controller.allSurah) {
+                              rawAllSurahInJuz.add(item);
+                              if (item.name.transliteration.id == endName) {
+                                break;
+                              }
+                            }
+
+                            for (var item
+                                in rawAllSurahInJuz.reversed.toList()) {
+                              allSurahInJuz.add(item);
+                              if (item.name.transliteration.id == startName) {
+                                break;
+                              }
+                            }
+
                             return GestureDetector(
                               onTap: () {
                                 Get.toNamed(
                                   Routes.DETAIL_JUZ_SCREEN,
-                                  arguments: detailJuz,
+                                  arguments: {
+                                    "juz": detailJuz,
+                                    "surah": allSurahInJuz.reversed.toList(),
+                                  },
                                 );
                               },
                               child: AnimatedContainer(

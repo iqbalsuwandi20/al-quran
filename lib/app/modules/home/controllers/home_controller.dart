@@ -7,6 +7,8 @@ import '../../../data/models/juz.dart';
 import '../../../data/models/surah.dart';
 
 class HomeController extends GetxController {
+  List<Surah> allSurah = [];
+
   Future<List<Surah>> getAllSurah() async {
     try {
       Uri url = Uri.parse("https://api.quran.gading.dev/surah");
@@ -18,7 +20,8 @@ class HomeController extends GetxController {
         if (data == null || data.isEmpty) {
           return [];
         } else {
-          return data.map((e) => Surah.fromJson(e)).toList();
+          allSurah = data.map((e) => Surah.fromJson(e)).toList();
+          return allSurah;
         }
       } else {
         // ignore: avoid_print

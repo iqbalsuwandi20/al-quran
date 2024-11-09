@@ -282,6 +282,15 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                 color: Colors.black54,
                               ),
                             ),
+                            SizedBox(height: height * 0.02),
+                            Text(
+                              verse.translation.en,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                fontSize: width * 0.05,
+                                color: Colors.black54,
+                              ),
+                            ),
                           ],
                         ),
                       );

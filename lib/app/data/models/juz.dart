@@ -59,8 +59,7 @@ class Data {
             int.tryParse(json["juzEndSurahNumber"].toString()) ?? 0,
         juzStartInfo: json["juzStartInfo"],
         juzEndInfo: json["juzEndInfo"],
-        totalVerses: int.tryParse(json["totalVerses"].toString()) ??
-            0, // Convert String to int
+        totalVerses: int.tryParse(json["totalVerses"].toString()) ?? 0,
         verses: List<Verse>.from(json["verses"].map((x) => Verse.fromJson(x))),
       );
 

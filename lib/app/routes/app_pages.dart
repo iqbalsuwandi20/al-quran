@@ -51,8 +51,9 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_JUZ_SCREEN,
-      page: () => const DetailJuzScreenView(),
+      page: () => DetailJuzScreenView(),
       binding: DetailJuzScreenBinding(),
+      transition: Transition.fadeIn,
     ),
   ];
 }
