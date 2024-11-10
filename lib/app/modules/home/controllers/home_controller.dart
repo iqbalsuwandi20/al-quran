@@ -7,9 +7,9 @@ import '../../../data/models/juz.dart';
 import '../../../data/models/surah.dart';
 
 class HomeController extends GetxController {
-  List<Surah> allSurah = [];
+  var allSurah = <Surah>[].obs;
 
-  Future<List<Surah>> getAllSurah() async {
+  Stream<List<Surah>> getAllSurahStream() async* {
     try {
       Uri url = Uri.parse("https://api.quran.gading.dev/surah");
       var response = await http.get(url);
@@ -18,24 +18,22 @@ class HomeController extends GetxController {
         List? data =
             (json.decode(response.body) as Map<String, dynamic>)["data"];
         if (data == null || data.isEmpty) {
-          return [];
+          yield [];
         } else {
-          allSurah = data.map((e) => Surah.fromJson(e)).toList();
-          return allSurah;
+          allSurah.value = data.map((e) => Surah.fromJson(e)).toList();
+          yield allSurah;
         }
       } else {
-        // ignore: avoid_print
         print("Failed to load data: ${response.statusCode}");
-        return [];
+        yield [];
       }
     } catch (e) {
-      // ignore: avoid_print
       print("Error occurred: $e");
-      return [];
+      yield [];
     }
   }
 
-  Future<List<Juz>> getAllJuz() async {
+  Stream<List<Juz>> getAllJuzStream() async* {
     List<Juz> allJuz = [];
     for (var i = 1; i <= 30; i++) {
       try {
@@ -53,16 +51,14 @@ class HomeController extends GetxController {
               message: jsonResponse["message"],
               data: Data.fromJson(data),
             ));
+            yield allJuz;
           }
         } else {
-          // ignore: avoid_print
           print("Failed to load data: ${response.statusCode}");
         }
       } catch (e) {
-        // ignore: avoid_print
         print("Error occurred: $e");
       }
     }
-    return allJuz;
   }
 }

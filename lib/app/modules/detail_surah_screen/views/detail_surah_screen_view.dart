@@ -138,10 +138,19 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                               fontSize: width * 0.06,
                               color: Colors.grey[600],
                             ),
+                            textAlign: TextAlign.center,
                           ),
                           SizedBox(height: height * 0.02),
                           Text(
                             "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
+                            style: TextStyle(
+                              fontSize: width * 0.04,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                          SizedBox(height: height * 0.02),
+                          Text(
+                            "Tekan untuk membaca tafsir",
                             style: TextStyle(
                               fontSize: width * 0.04,
                               color: Colors.grey[700],
@@ -276,15 +285,6 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                             SizedBox(height: height * 0.02),
                             Text(
                               verse.translation.id,
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                fontSize: width * 0.05,
-                                color: Colors.black54,
-                              ),
-                            ),
-                            SizedBox(height: height * 0.02),
-                            Text(
-                              verse.translation.en,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontSize: width * 0.05,

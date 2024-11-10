@@ -104,10 +104,10 @@ class HomeView extends GetView<HomeController> {
                                   color: Colors.white),
                               SizedBox(width: screenWidth * 0.02),
                               Text(
-                                "Terakhir dibaca",
+                                "Tekan terakhir dibaca",
                                 style: GoogleFonts.poppins(
                                     color: Colors.white,
-                                    fontSize: screenWidth * 0.04),
+                                    fontSize: screenWidth * 0.03),
                               ),
                             ],
                           ),
@@ -149,14 +149,15 @@ class HomeView extends GetView<HomeController> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    FutureBuilder<List<Surah>>(
-                      future: controller.getAllSurah(),
+                    StreamBuilder<List<Surah>>(
+                      stream: controller.getAllSurahStream(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(
-                              child: CircularProgressIndicator(
-                                  color: Colors.pink[700]));
+                            child: CircularProgressIndicator(
+                                color: Colors.pink[700]),
+                          );
                         }
                         if (snapshot.hasError) {
                           return Center(
@@ -278,14 +279,9 @@ class HomeView extends GetView<HomeController> {
                         );
                       },
                     ),
-                    FutureBuilder<List<juz.Juz>>(
-                      future: controller.getAllJuz(),
+                    StreamBuilder<List<juz.Juz>>(
+                      stream: controller.getAllJuzStream(),
                       builder: (context, snapshot) {
-                        final double screenWidth =
-                            MediaQuery.of(context).size.width;
-                        final double screenHeight =
-                            MediaQuery.of(context).size.height;
-
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(
@@ -315,7 +311,6 @@ class HomeView extends GetView<HomeController> {
                             ),
                           );
                         }
-
                         return ListView.builder(
                           padding: EdgeInsets.symmetric(
                               vertical: screenHeight * 0.02),

@@ -66,61 +66,9 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
               );
             }
             juz.Verse ayat = detailJuz.data.verses[index];
-
-            Widget surahMarker;
-            if (index == 0 || ayat.number.inSurah == 1) {
-              surahMarker = Column(
-                children: [
-                  Center(
-                    child: Card(
-                      elevation: 8,
-                      shadowColor: Colors.pink[200],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(width * 0.05),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              allSurahInThisJuz[controller.index]
-                                  .name
-                                  .transliteration
-                                  .id
-                                  .toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                fontSize: width * 0.08,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.pink[800],
-                              ),
-                            ),
-                            SizedBox(height: height * 0.02),
-                            Text(
-                              "${allSurahInThisJuz[controller.index].numberOfVerses} Ayat | ${allSurahInThisJuz[controller.index].revelation.id}",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-              controller.index++;
-            } else {
-              surahMarker = SizedBox.shrink();
-            }
-
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                surahMarker,
                 Container(
                   margin: EdgeInsets.symmetric(vertical: height * 0.01),
                   padding: EdgeInsets.all(width * 0.04),
@@ -214,15 +162,6 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
                       SizedBox(height: height * 0.02),
                       Text(
                         ayat.translation.id,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: width * 0.05,
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(height: height * 0.02),
-                      Text(
-                        ayat.translation.en,
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: width * 0.05,
