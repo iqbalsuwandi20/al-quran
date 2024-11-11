@@ -8,6 +8,8 @@ import '../../../data/models/detail_surah.dart';
 class DetailSurahScreenController extends GetxController {
   final player = AudioPlayer();
 
+  Verse? lastVerse;
+
   Future<DetailSurah> getDetailSurah(String id) async {
     Uri url = Uri.parse("https://api.quran.gading.dev/surah/$id");
     var response = await http.get(url);
@@ -85,6 +87,12 @@ class DetailSurahScreenController extends GetxController {
 
   void playAudio(Verse verse) async {
     try {
+      lastVerse ??= verse;
+      lastVerse?.audioCondition = "stop";
+      lastVerse = verse;
+      lastVerse!.audioCondition = "stop";
+      update();
+
       await player.stop();
       await player.setUrl(verse.audio.primary);
 
