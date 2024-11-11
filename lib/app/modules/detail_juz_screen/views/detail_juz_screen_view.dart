@@ -65,10 +65,59 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
                 ),
               );
             }
+
             juz.Verse ayat = detailJuz.data.verses[index];
+            int surahIndex = controller.surahIndexMap[index] ?? 0;
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (ayat.number.inSurah == 1 &&
+                    surahIndex < allSurahInThisJuz.length)
+                  Center(
+                    child: Card(
+                      elevation: 8,
+                      shadowColor: Colors.pink[200],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(width * 0.05),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              allSurahInThisJuz[surahIndex]
+                                  .name
+                                  .transliteration
+                                  .id,
+                              style: GoogleFonts.poppins(
+                                fontSize: width * 0.08,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.pink[800],
+                              ),
+                            ),
+                            Text(
+                              allSurahInThisJuz[surahIndex].name.translation.id,
+                              style: GoogleFonts.poppins(
+                                fontSize: width * 0.06,
+                                color: Colors.grey[600],
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: height * 0.01),
+                            Text(
+                              "${allSurahInThisJuz[surahIndex].numberOfVerses} Ayat | ${allSurahInThisJuz[surahIndex].revelation.id}",
+                              style: GoogleFonts.poppins(
+                                fontSize: width * 0.04,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: height * 0.01),
                   padding: EdgeInsets.all(width * 0.04),
@@ -153,7 +202,7 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
                       Text(
                         ayat.text.transliteration.en,
                         textAlign: TextAlign.end,
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: width * 0.05,
                           color: Colors.grey[600],
                           fontStyle: FontStyle.italic,
@@ -163,7 +212,7 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
                       Text(
                         ayat.translation.id,
                         textAlign: TextAlign.justify,
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: width * 0.05,
                           color: Colors.black54,
                         ),

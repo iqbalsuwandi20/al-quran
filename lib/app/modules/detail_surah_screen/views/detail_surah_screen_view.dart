@@ -143,7 +143,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                           SizedBox(height: height * 0.02),
                           Text(
                             "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: width * 0.04,
                               color: Colors.grey[700],
                             ),
@@ -151,7 +151,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                           SizedBox(height: height * 0.02),
                           Text(
                             "Tekan untuk membaca tafsir",
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               fontSize: width * 0.04,
                               color: Colors.grey[700],
                             ),
@@ -227,7 +227,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                   child: Center(
                                     child: Text(
                                       "${verse.number.inSurah}",
-                                      style: TextStyle(
+                                      style: GoogleFonts.poppins(
                                         color: Colors.pink,
                                         fontWeight: FontWeight.bold,
                                         fontSize: width * 0.05,
@@ -276,7 +276,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                             Text(
                               verse.text.transliteration.en,
                               textAlign: TextAlign.end,
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: width * 0.05,
                                 color: Colors.grey[600],
                                 fontStyle: FontStyle.italic,
@@ -286,7 +286,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                             Text(
                               verse.translation.id,
                               textAlign: TextAlign.justify,
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: width * 0.05,
                                 color: Colors.black54,
                               ),

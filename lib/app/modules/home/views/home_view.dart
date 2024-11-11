@@ -149,8 +149,8 @@ class HomeView extends GetView<HomeController> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    StreamBuilder<List<Surah>>(
-                      stream: controller.getAllSurahStream(),
+                    FutureBuilder<List<Surah>>(
+                      future: controller.getAllSurahFuture(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -255,7 +255,7 @@ class HomeView extends GetView<HomeController> {
                                               height: screenHeight * 0.005),
                                           Text(
                                             "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
-                                            style: TextStyle(
+                                            style: GoogleFonts.poppins(
                                               color: Colors.grey[900],
                                               fontSize: screenWidth * 0.04,
                                             ),
@@ -279,8 +279,8 @@ class HomeView extends GetView<HomeController> {
                         );
                       },
                     ),
-                    StreamBuilder<List<juz.Juz>>(
-                      stream: controller.getAllJuzStream(),
+                    FutureBuilder<List<juz.Juz>>(
+                      future: controller.getAllJuzFuture(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -311,6 +311,7 @@ class HomeView extends GetView<HomeController> {
                             ),
                           );
                         }
+
                         return ListView.builder(
                           padding: EdgeInsets.symmetric(
                               vertical: screenHeight * 0.02),
@@ -360,7 +361,7 @@ class HomeView extends GetView<HomeController> {
                                   gradient: LinearGradient(
                                     colors: [
                                       Colors.pink[200]!,
-                                      Colors.pink[400]!,
+                                      Colors.pink[400]!
                                     ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
@@ -394,7 +395,7 @@ class HomeView extends GetView<HomeController> {
                                           style: GoogleFonts.poppins(
                                             color: Colors.pink[700],
                                             fontWeight: FontWeight.bold,
-                                            fontSize: screenWidth * 0.08,
+                                            fontSize: screenWidth * 0.045,
                                           ),
                                         ),
                                       ),
@@ -408,25 +409,27 @@ class HomeView extends GetView<HomeController> {
                                           Text(
                                             "Juz ${index + 1}",
                                             style: GoogleFonts.poppins(
-                                              fontSize: screenWidth * 0.06,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: screenWidth * 0.055,
+                                              fontWeight: FontWeight.w600,
                                               color: Colors.black87,
                                             ),
                                           ),
-                                          SizedBox(height: screenHeight * 0.01),
+                                          SizedBox(
+                                              height: screenHeight * 0.005),
                                           Text(
-                                            "Awal surat: ${detailJuz.data.juzStartInfo}",
-                                            style: TextStyle(
+                                            detailJuz.data.juzStartInfo,
+                                            style: GoogleFonts.poppins(
                                               color: Colors.grey[900],
                                               fontSize: screenWidth * 0.04,
                                             ),
                                           ),
-                                          SizedBox(height: screenHeight * 0.01),
+                                          SizedBox(
+                                              height: screenHeight * 0.005),
                                           Text(
-                                            "Akhir surat: ${detailJuz.data.juzEndInfo}",
+                                            detailJuz.data.juzEndInfo,
                                             style: GoogleFonts.poppins(
-                                              fontSize: screenWidth * 0.04,
                                               color: Colors.grey[900],
+                                              fontSize: screenWidth * 0.04,
                                             ),
                                           ),
                                         ],
