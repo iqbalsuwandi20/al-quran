@@ -245,7 +245,10 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                       ),
                                     ),
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        controller
+                                            .playAudio(verse.audio.primary);
+                                      },
                                       icon: Icon(
                                         Icons.play_arrow_outlined,
                                         color: Colors.pink[700],

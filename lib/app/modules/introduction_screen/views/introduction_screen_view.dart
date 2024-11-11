@@ -35,7 +35,7 @@ class IntroductionScreenView extends GetView<IntroductionScreenController> {
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
               child: Text(
                 "Sesibuk itukah kamu sampai belum membaca Al-Qur'an hari ini?",
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: size.width * 0.045,
                   color: Colors.black54,
                   height: 1.4,
