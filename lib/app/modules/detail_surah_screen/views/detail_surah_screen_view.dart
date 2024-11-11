@@ -235,26 +235,69 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                     ),
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.bookmark_add_outlined,
-                                        color: Colors.pink[700],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () async {
-                                        controller
-                                            .playAudio(verse.audio.primary);
-                                      },
-                                      icon: Icon(
-                                        Icons.play_arrow_outlined,
-                                        color: Colors.pink[700],
-                                      ),
-                                    ),
-                                  ],
+                                GetBuilder<DetailSurahScreenController>(
+                                  builder: (c) {
+                                    return Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.bookmark_add_outlined,
+                                            color: Colors.pink[700],
+                                          ),
+                                        ),
+                                        (verse.audioCondition == "stop")
+                                            ? IconButton(
+                                                onPressed: () async {
+                                                  c.playAudio(verse);
+                                                },
+                                                icon: Icon(
+                                                  Icons.play_arrow_outlined,
+                                                  color: Colors.pink[700],
+                                                ),
+                                              )
+                                            : Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  (verse.audioCondition ==
+                                                          "playing")
+                                                      ? IconButton(
+                                                          onPressed: () async {
+                                                            c.pauseAudio(verse);
+                                                          },
+                                                          icon: Icon(
+                                                            Icons
+                                                                .pause_outlined,
+                                                            color: Colors
+                                                                .pink[700],
+                                                          ),
+                                                        )
+                                                      : IconButton(
+                                                          onPressed: () async {
+                                                            c.resumeAudio(
+                                                                verse);
+                                                          },
+                                                          icon: Icon(
+                                                            Icons
+                                                                .play_arrow_outlined,
+                                                            color: Colors
+                                                                .pink[700],
+                                                          ),
+                                                        ),
+                                                  IconButton(
+                                                    onPressed: () async {
+                                                      c.stopAudio(verse);
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.stop_outlined,
+                                                      color: Colors.pink[700],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                      ],
+                                    );
+                                  },
                                 ),
                               ],
                             ),

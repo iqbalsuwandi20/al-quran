@@ -24,23 +24,88 @@ class DetailSurahScreenController extends GetxController {
     }
   }
 
-  void playAudio(String? url) async {
-    if (url != null) {
-      try {
-        await player.setUrl(url);
-        await player.play();
-      } on PlayerException catch (e) {
-        // ignore: avoid_print
-        print("Error code: ${e.code}");
-        // ignore: avoid_print
-        print("Error message: ${e.message}");
-      } on PlayerInterruptedException catch (e) {
-        // ignore: avoid_print
-        print("Connection aborted: ${e.message}");
-      } catch (e) {
-        // ignore: avoid_print
-        print('An error occured: $e');
-      }
+  void stopAudio(Verse verse) async {
+    try {
+      await player.stop();
+      verse.audioCondition = "stop";
+      update();
+    } on PlayerException catch (e) {
+      // ignore: avoid_print
+      print("Error code: ${e.code}");
+      // ignore: avoid_print
+      print("Error message: ${e.message}");
+    } on PlayerInterruptedException catch (e) {
+      // ignore: avoid_print
+      print("Connection aborted: ${e.message}");
+    } catch (e) {
+      // ignore: avoid_print
+      print('An error occured: $e');
+    }
+  }
+
+  void resumeAudio(Verse verse) async {
+    try {
+      verse.audioCondition = "playing";
+      update();
+      await player.play();
+      verse.audioCondition = "stop";
+      update();
+    } on PlayerException catch (e) {
+      // ignore: avoid_print
+      print("Error code: ${e.code}");
+      // ignore: avoid_print
+      print("Error message: ${e.message}");
+    } on PlayerInterruptedException catch (e) {
+      // ignore: avoid_print
+      print("Connection aborted: ${e.message}");
+    } catch (e) {
+      // ignore: avoid_print
+      print('An error occured: $e');
+    }
+  }
+
+  void pauseAudio(Verse verse) async {
+    try {
+      await player.pause();
+      verse.audioCondition = "pause";
+      update();
+    } on PlayerException catch (e) {
+      // ignore: avoid_print
+      print("Error code: ${e.code}");
+      // ignore: avoid_print
+      print("Error message: ${e.message}");
+    } on PlayerInterruptedException catch (e) {
+      // ignore: avoid_print
+      print("Connection aborted: ${e.message}");
+    } catch (e) {
+      // ignore: avoid_print
+      print('An error occured: $e');
+    }
+  }
+
+  void playAudio(Verse verse) async {
+    try {
+      await player.stop();
+      await player.setUrl(verse.audio.primary);
+
+      verse.audioCondition = "playing";
+      update();
+      await player.play();
+
+      verse.audioCondition = "stop";
+      await player.stop();
+      update();
+    } on PlayerException catch (e) {
+      // ignore: avoid_print
+      print("Error code: ${e.code}");
+      // ignore: avoid_print
+      print("Error message: ${e.message}");
+    } on PlayerInterruptedException catch (e) {
+      // ignore: avoid_print
+      print("Connection aborted: ${e.message}");
+    } catch (e) {
+      // ignore: avoid_print
+      print('An error occured: $e');
     }
   }
 
