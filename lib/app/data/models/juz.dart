@@ -81,6 +81,7 @@ class Verse {
   Translation translation;
   Audio audio;
   Tafsir tafsir;
+  String audioCondition;
 
   Verse({
     required this.number,
@@ -89,6 +90,7 @@ class Verse {
     required this.translation,
     required this.audio,
     required this.tafsir,
+    this.audioCondition = "stop",
   });
 
   factory Verse.fromJson(Map<String, dynamic> json) => Verse(

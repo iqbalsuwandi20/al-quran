@@ -417,7 +417,7 @@ class HomeView extends GetView<HomeController> {
                                           SizedBox(
                                               height: screenHeight * 0.005),
                                           Text(
-                                            "Awal surah: ${detailJuz.data.juzStartInfo.replaceAll('-', '')}",
+                                            "Awal: ${detailJuz.data.juzStartInfo.replaceAll('-', '')}",
                                             style: GoogleFonts.poppins(
                                               color: Colors.grey[900],
                                               fontSize: screenWidth * 0.04,
@@ -426,7 +426,7 @@ class HomeView extends GetView<HomeController> {
                                           SizedBox(
                                               height: screenHeight * 0.005),
                                           Text(
-                                            "Akhir surah: ${detailJuz.data.juzEndInfo.replaceAll('-', '')}",
+                                            "Akhir: ${detailJuz.data.juzEndInfo.replaceAll('-', '')}",
                                             style: GoogleFonts.poppins(
                                               color: Colors.grey[900],
                                               fontSize: screenWidth * 0.04,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
+
 import '../../../data/models/detail_surah.dart';
 
 class DetailSurahScreenController extends GetxController {
