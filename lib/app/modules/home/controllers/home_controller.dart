@@ -9,6 +9,9 @@ import '../../../data/models/surah.dart';
 class HomeController extends GetxController {
   var allSurah = <Surah>[].obs;
 
+  RxBool isLoading = false.obs;
+  var selectedIndex = Rxn<int>();
+
   Future<List<Surah>> getAllSurahFuture() async {
     try {
       Uri url = Uri.parse("https://api.quran.gading.dev/surah");

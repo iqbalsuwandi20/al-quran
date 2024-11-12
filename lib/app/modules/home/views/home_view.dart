@@ -62,75 +62,98 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.015),
-              GestureDetector(
-                onTap: () => Get.toNamed(Routes.LAST_READ_SCREEN),
-                child: Container(
-                  padding: EdgeInsets.all(screenWidth * 0.05),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                      colors: [Colors.pink[200]!, Colors.pink[400]!],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.pink.withOpacity(0.2),
-                        blurRadius: 10,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: -5,
-                        right: 0,
-                        child: Opacity(
-                          opacity: 0.7,
-                          child: Image.asset(
-                            "assets/images/quran.png",
-                            width: screenWidth * 0.25,
-                            height: screenWidth * 0.25,
-                          ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.menu_book_outlined,
-                                  color: Colors.white),
-                              SizedBox(width: screenWidth * 0.02),
-                              Text(
-                                "Tekan terakhir dibaca",
-                                style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: screenWidth * 0.03),
+              Obx(
+                () {
+                  return GestureDetector(
+                    onTap: () async {
+                      if (controller.isLoading.isFalse) {
+                        controller.isLoading.value = true;
+
+                        await Future.delayed(Duration(milliseconds: 500));
+
+                        Get.toNamed(Routes.LAST_READ_SCREEN);
+
+                        controller.isLoading.value = false;
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(screenWidth * 0.05),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: controller.isLoading.isFalse
+                            ? LinearGradient(
+                                colors: [Colors.pink[200]!, Colors.pink[400]!],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )
+                            : LinearGradient(
+                                colors: [
+                                  Colors.grey[300]!,
+                                  Colors.grey[500]!,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
-                            ],
-                          ),
-                          SizedBox(height: screenHeight * 0.015),
-                          Text(
-                            "Al-Fatihah",
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: screenWidth * 0.06,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Juz 1 | Ayat 5",
-                            style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: screenWidth * 0.04),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.pink.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: Offset(0, 4),
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            bottom: -5,
+                            right: 0,
+                            child: Opacity(
+                              opacity: 0.7,
+                              child: Image.asset(
+                                "assets/images/quran.png",
+                                width: screenWidth * 0.25,
+                                height: screenWidth * 0.25,
+                              ),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.menu_book_outlined,
+                                      color: Colors.white),
+                                  SizedBox(width: screenWidth * 0.02),
+                                  Text(
+                                    "Tekan terakhir dibaca",
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: screenWidth * 0.03),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: screenHeight * 0.015),
+                              Text(
+                                "Al-Fatihah",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: screenWidth * 0.06,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                "Juz 1 | Ayat 5",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: screenWidth * 0.04),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
               SizedBox(height: screenHeight * 0.03),
               TabBar(
@@ -188,92 +211,145 @@ class HomeView extends GetView<HomeController> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             Surah surah = snapshot.data![index];
-                            return GestureDetector(
-                              onTap: () => Get.toNamed(
-                                  Routes.DETAIL_SURAH_SCREEN,
-                                  arguments: surah),
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
-                                margin: EdgeInsets.symmetric(
-                                    vertical: screenHeight * 0.015),
-                                padding: EdgeInsets.all(screenWidth * 0.04),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.pink[200]!,
-                                      Colors.pink[400]!
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
+                            return Obx(
+                              () {
+                                return GestureDetector(
+                                  onTap: () async {
+                                    if (controller.isLoading.isFalse) {
+                                      controller.selectedIndex.value = index;
+                                      controller.isLoading.value = true;
+
+                                      await Future.delayed(
+                                          Duration(milliseconds: 500));
+
+                                      await Get.toNamed(
+                                          Routes.DETAIL_SURAH_SCREEN,
+                                          arguments: surah);
+
+                                      controller.isLoading.value = false;
+                                      controller.selectedIndex.value = null;
+                                    }
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 300),
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: screenHeight * 0.015),
+                                    padding: EdgeInsets.all(screenWidth * 0.04),
+                                    decoration: BoxDecoration(
+                                      gradient: controller.isLoading.isFalse
+                                          ? LinearGradient(
+                                              colors: [
+                                                Colors.pink[200]!,
+                                                Colors.pink[400]!
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            )
+                                          : LinearGradient(
+                                              colors: [
+                                                Colors.grey[300]!,
+                                                Colors.grey[500]!,
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            ),
+                                      borderRadius: BorderRadius.circular(15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.pink.withOpacity(0.2),
+                                          blurRadius: 8,
+                                          offset: Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: controller.isLoading.isFalse
+                                        ? Row(
+                                            children: [
+                                              Container(
+                                                width: screenWidth * 0.15,
+                                                height: screenWidth * 0.15,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/images/list.png"),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    "${surah.number}",
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.pink[700],
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize:
+                                                          screenWidth * 0.045,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                  width: screenWidth * 0.04),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      surah.name.transliteration
+                                                          .id,
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        fontSize:
+                                                            screenWidth * 0.055,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.black87,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        height: screenHeight *
+                                                            0.005),
+                                                    Text(
+                                                      "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: Colors.grey[900],
+                                                        fontSize:
+                                                            screenWidth * 0.04,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Text(
+                                                surah.name.short,
+                                                style: GoogleFonts.amiri(
+                                                  fontSize: screenWidth * 0.05,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : Center(
+                                            child: controller
+                                                        .selectedIndex.value ==
+                                                    index
+                                                ? Text(
+                                                    "Mohon tunggu..",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize:
+                                                          screenWidth * 0.055,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black87,
+                                                    ),
+                                                  )
+                                                : Text(""),
+                                          ),
                                   ),
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.pink.withOpacity(0.2),
-                                      blurRadius: 8,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: screenWidth * 0.15,
-                                      height: screenWidth * 0.15,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/list.png"),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "${surah.number}",
-                                          style: GoogleFonts.poppins(
-                                            color: Colors.pink[700],
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: screenWidth * 0.045,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: screenWidth * 0.04),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            surah.name.transliteration.id,
-                                            style: GoogleFonts.poppins(
-                                              fontSize: screenWidth * 0.055,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              height: screenHeight * 0.005),
-                                          Text(
-                                            "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.grey[900],
-                                              fontSize: screenWidth * 0.04,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Text(
-                                      surah.name.short,
-                                      style: GoogleFonts.amiri(
-                                        fontSize: screenWidth * 0.05,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                );
+                              },
                             );
                           },
                         );
@@ -342,107 +418,175 @@ class HomeView extends GetView<HomeController> {
                               }
                             }
 
-                            return GestureDetector(
-                              onTap: () {
-                                Get.toNamed(
-                                  Routes.DETAIL_JUZ_SCREEN,
-                                  arguments: {
-                                    "juz": detailJuz,
-                                    "surah": allSurahInJuz.reversed.toList(),
+                            return Obx(
+                              () {
+                                return GestureDetector(
+                                  onTap: () async {
+                                    if (controller.isLoading.isFalse) {
+                                      controller.selectedIndex.value = index;
+                                      controller.isLoading.value = true;
+
+                                      await Future.delayed(
+                                          Duration(milliseconds: 500));
+
+                                      await Get.toNamed(
+                                        Routes.DETAIL_JUZ_SCREEN,
+                                        arguments: {
+                                          "juz": detailJuz,
+                                          "surah":
+                                              allSurahInJuz.reversed.toList(),
+                                        },
+                                      );
+
+                                      controller.isLoading.value = false;
+                                      controller.selectedIndex.value = null;
+                                    }
                                   },
+                                  child: AnimatedContainer(
+                                    duration: Duration(milliseconds: 300),
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: screenHeight * 0.015),
+                                    padding: EdgeInsets.all(screenWidth * 0.04),
+                                    decoration: BoxDecoration(
+                                      gradient: controller.isLoading.isFalse
+                                          ? LinearGradient(
+                                              colors: [
+                                                Colors.pink[200]!,
+                                                Colors.pink[400]!
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            )
+                                          : LinearGradient(
+                                              colors: [
+                                                Colors.grey[300]!,
+                                                Colors.grey[500]!,
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            ),
+                                      borderRadius: BorderRadius.circular(25),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.pink.withOpacity(0.2),
+                                          blurRadius: 8,
+                                          offset: Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: controller.isLoading.isFalse
+                                        ? Row(
+                                            children: [
+                                              AnimatedContainer(
+                                                duration:
+                                                    Duration(milliseconds: 300),
+                                                width: screenWidth * 0.15,
+                                                height: screenWidth * 0.15,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/images/list.png"),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    "${index + 1}",
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.pink[700],
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize:
+                                                          screenWidth * 0.045,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                  width: screenWidth * 0.04),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Juz ${index + 1}",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        fontSize:
+                                                            screenWidth * 0.055,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.black87,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        height: screenHeight *
+                                                            0.005),
+                                                    Text(
+                                                      "Awal: ${detailJuz.data.juzStartInfo.replaceAll('-', '')}",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: Colors.grey[900],
+                                                        fontSize:
+                                                            screenWidth * 0.04,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        height: screenHeight *
+                                                            0.005),
+                                                    Text(
+                                                      "Akhir: ${detailJuz.data.juzEndInfo.replaceAll('-', '')}",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: Colors.grey[900],
+                                                        fontSize:
+                                                            screenWidth * 0.04,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        height: screenHeight *
+                                                            0.005),
+                                                    Text(
+                                                      "Total ayat: ${detailJuz.data.totalVerses}",
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: Colors.grey[900],
+                                                        fontSize:
+                                                            screenWidth * 0.04,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.white,
+                                                size: screenWidth * 0.05,
+                                              ),
+                                            ],
+                                          )
+                                        : Center(
+                                            child: controller
+                                                        .selectedIndex.value ==
+                                                    index
+                                                ? Text(
+                                                    "Mohon tunggu..",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize:
+                                                          screenWidth * 0.055,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black87,
+                                                    ),
+                                                  )
+                                                : Text(""),
+                                          ),
+                                  ),
                                 );
                               },
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
-                                margin: EdgeInsets.symmetric(
-                                    vertical: screenHeight * 0.015),
-                                padding: EdgeInsets.all(screenWidth * 0.04),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.pink[200]!,
-                                      Colors.pink[400]!
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                  borderRadius: BorderRadius.circular(25),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.pink.withOpacity(0.2),
-                                      blurRadius: 8,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    AnimatedContainer(
-                                      duration: Duration(milliseconds: 300),
-                                      width: screenWidth * 0.15,
-                                      height: screenWidth * 0.15,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/list.png"),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "${index + 1}",
-                                          style: GoogleFonts.poppins(
-                                            color: Colors.pink[700],
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: screenWidth * 0.045,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: screenWidth * 0.04),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Juz ${index + 1}",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: screenWidth * 0.055,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              height: screenHeight * 0.005),
-                                          Text(
-                                            "Awal: ${detailJuz.data.juzStartInfo.replaceAll('-', '')}",
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.grey[900],
-                                              fontSize: screenWidth * 0.04,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              height: screenHeight * 0.005),
-                                          Text(
-                                            "Akhir: ${detailJuz.data.juzEndInfo.replaceAll('-', '')}",
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.grey[900],
-                                              fontSize: screenWidth * 0.04,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.white,
-                                      size: screenWidth * 0.05,
-                                    ),
-                                  ],
-                                ),
-                              ),
                             );
                           },
                         );

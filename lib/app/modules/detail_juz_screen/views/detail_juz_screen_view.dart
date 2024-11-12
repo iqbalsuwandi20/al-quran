@@ -58,7 +58,6 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
               physics: NeverScrollableScrollPhysics(),
               itemCount: detailJuz.data.verses.length,
               itemBuilder: (context, index) {
-                print(index);
                 if (detailJuz.data.verses.isEmpty) {
                   return Center(
                     child: Text(
@@ -72,13 +71,15 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
                 }
 
                 juz.Verse ayat = detailJuz.data.verses[index];
-                int surahIndex = controller.surahIndexMap[index] ?? 0;
+
+                if (index != 0 && ayat.number.inSurah == 1) {
+                  controller.index++;
+                }
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (ayat.number.inSurah == 1 &&
-                        surahIndex < allSurahInThisJuz.length)
+                    if (ayat.number.inSurah == 1)
                       Center(
                         child: Card(
                           elevation: 8,
@@ -92,7 +93,7 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  allSurahInThisJuz[surahIndex]
+                                  allSurahInThisJuz[controller.index]
                                       .name
                                       .transliteration
                                       .id,
@@ -103,7 +104,7 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
                                   ),
                                 ),
                                 Text(
-                                  allSurahInThisJuz[surahIndex]
+                                  allSurahInThisJuz[controller.index]
                                       .name
                                       .translation
                                       .id,
@@ -115,7 +116,7 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
                                 ),
                                 SizedBox(height: height * 0.01),
                                 Text(
-                                  "${allSurahInThisJuz[surahIndex].numberOfVerses} Ayat | ${allSurahInThisJuz[surahIndex].revelation.id}",
+                                  "${allSurahInThisJuz[controller.index].numberOfVerses} Ayat | ${allSurahInThisJuz[controller.index].revelation.id}",
                                   style: GoogleFonts.poppins(
                                     fontSize: width * 0.04,
                                     color: Colors.grey[700],
