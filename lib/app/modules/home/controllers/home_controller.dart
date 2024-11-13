@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:sqflite/sqflite.dart';
 
+import '../../../data/databases/bookmark.dart';
 import '../../../data/models/juz.dart';
 import '../../../data/models/surah.dart';
 
@@ -11,6 +13,27 @@ class HomeController extends GetxController {
 
   RxBool isLoading = false.obs;
   var selectedIndex = Rxn<int>();
+
+  DatabaseManager database = DatabaseManager.instance;
+
+  void deleteBookmark(int id) async {
+    Database db = await database.db;
+
+    db.delete("bookmark", where: "id = $id");
+
+    update();
+  }
+
+  Future<List<Map<String, dynamic>>> getBookmark() async {
+    Database db = await database.db;
+
+    List<Map<String, dynamic>> allBookmark = await db.query(
+      "bookmark",
+      where: "last_read = 0",
+    );
+
+    return allBookmark;
+  }
 
   Future<List<Surah>> getAllSurahFuture() async {
     try {

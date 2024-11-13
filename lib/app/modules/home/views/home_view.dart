@@ -611,7 +611,229 @@ class HomeView extends GetView<HomeController> {
                         );
                       },
                     ),
-                    Center(child: Text("Penanda Section")),
+                    GetBuilder<HomeController>(
+                      builder: (c) {
+                        return FutureBuilder<List<Map<String, dynamic>>>(
+                          future: c.getBookmark(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                    color: Colors.pink[700]),
+                              );
+                            }
+
+                            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                              return Center(
+                                child: Text(
+                                  "Tidak ada yang disimpan",
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenWidth * 0.045,
+                                  ),
+                                ),
+                              );
+                            }
+
+                            return ListView.builder(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenHeight * 0.02),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                Map<String, dynamic> data =
+                                    snapshot.data![index];
+                                return Obx(
+                                  () {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        if (c.isLoading.isFalse) {
+                                          c.selectedIndex.value = index;
+                                          c.isLoading.value = true;
+
+                                          await Future.delayed(
+                                              Duration(seconds: 5));
+
+                                          c.isLoading.value = false;
+                                          c.selectedIndex.value = null;
+                                        }
+                                      },
+                                      child: AnimatedContainer(
+                                        duration: Duration(milliseconds: 300),
+                                        margin: EdgeInsets.symmetric(
+                                            vertical: screenHeight * 0.015),
+                                        padding:
+                                            EdgeInsets.all(screenWidth * 0.04),
+                                        decoration: BoxDecoration(
+                                          gradient: c.isLoading.isFalse
+                                              ? LinearGradient(
+                                                  colors: [
+                                                    Colors.pink[200]!,
+                                                    Colors.pink[400]!,
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                )
+                                              : LinearGradient(
+                                                  colors: [
+                                                    Colors.grey[300]!,
+                                                    Colors.grey[500]!,
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                ),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.pink.withOpacity(0.2),
+                                              blurRadius: 8,
+                                              offset: Offset(0, 4),
+                                            ),
+                                          ],
+                                        ),
+                                        child: c.isLoading.isFalse
+                                            ? Row(
+                                                children: [
+                                                  AnimatedContainer(
+                                                    duration: Duration(
+                                                        milliseconds: 300),
+                                                    width: screenWidth * 0.15,
+                                                    height: screenWidth * 0.15,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                            "assets/images/list.png"),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "${index + 1}",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          color:
+                                                              Colors.pink[700],
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize:
+                                                              screenWidth *
+                                                                  0.045,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                      width:
+                                                          screenWidth * 0.04),
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          data["surah"]
+                                                              .toString()
+                                                              .replaceAll(
+                                                                  "+", "'"),
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            fontSize:
+                                                                screenWidth *
+                                                                    0.055,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Colors.black87,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                            height:
+                                                                screenHeight *
+                                                                    0.005),
+                                                        Text(
+                                                          "Ayat ${data["ayat"]}",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: Colors
+                                                                .grey[900],
+                                                            fontSize:
+                                                                screenWidth *
+                                                                    0.04,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                            height:
+                                                                screenHeight *
+                                                                    0.005),
+                                                        Text(
+                                                          "Via ${data["surah"].toString().replaceAll("+", "'")}",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: Colors
+                                                                .grey[900],
+                                                            fontSize:
+                                                                screenWidth *
+                                                                    0.04,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      c.deleteBookmark(
+                                                          data["id"]);
+                                                    },
+                                                    icon: Icon(
+                                                        Icons.delete_outline,
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              )
+                                            : Center(
+                                                child: c.selectedIndex.value ==
+                                                        index
+                                                    ? AnimatedTextKit(
+                                                        animatedTexts: [
+                                                          TyperAnimatedText(
+                                                            'Tunggu...',
+                                                            textStyle:
+                                                                GoogleFonts
+                                                                    .poppins(
+                                                              fontSize:
+                                                                  screenWidth *
+                                                                      0.055,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: Colors
+                                                                  .black87,
+                                                            ),
+                                                            speed: Duration(
+                                                                milliseconds:
+                                                                    200),
+                                                          ),
+                                                        ],
+                                                        totalRepeatCount: 2,
+                                                      )
+                                                    : Text(""),
+                                              ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

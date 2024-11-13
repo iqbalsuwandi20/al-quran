@@ -176,13 +176,6 @@ class DetailJuzScreenView extends GetView<DetailJuzScreenController> {
                                 builder: (c) {
                                   return Row(
                                     children: [
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(
-                                          Icons.bookmark_add_outlined,
-                                          color: Colors.pink[700],
-                                        ),
-                                      ),
                                       (ayat.audioCondition == "stop")
                                           ? IconButton(
                                               onPressed: () async {
