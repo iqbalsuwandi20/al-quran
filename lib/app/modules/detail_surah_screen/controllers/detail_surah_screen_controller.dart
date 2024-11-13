@@ -9,6 +9,8 @@ import '../../../data/models/detail_surah.dart';
 class DetailSurahScreenController extends GetxController {
   final player = AudioPlayer();
 
+  RxBool isLoading = false.obs;
+
   Verse? lastVerse;
 
   Future<DetailSurah> getDetailSurah(String id) async {

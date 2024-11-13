@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,107 +60,140 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: GestureDetector(
-                  onTap: () => Get.defaultDialog(
-                    title:
-                        "TAFSIR ${surah.name.transliteration.id.toUpperCase()}",
-                    titleStyle: GoogleFonts.poppins(
-                      color: Colors.pink[700],
-                      fontSize: width * 0.05,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    backgroundColor: Colors.pink[50],
-                    radius: 20,
-                    content: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: height * 0.7,
-                      ),
-                      child: SingleChildScrollView(
-                        child: Container(
-                          width: width * 0.9,
-                          padding: EdgeInsets.all(width * 0.04),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Colors.pink[50]!, Colors.white],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
+                child: Obx(
+                  () {
+                    return GestureDetector(
+                      onTap: () async {
+                        if (controller.isLoading.isFalse) {
+                          controller.isLoading.value = true;
+
+                          await Future.delayed(Duration(seconds: 5));
+
+                          Get.defaultDialog(
+                            title:
+                                "TAFSIR ${surah.name.transliteration.id.toUpperCase()}",
+                            titleStyle: GoogleFonts.poppins(
+                              color: Colors.pink[700],
+                              fontSize: width * 0.05,
+                              fontWeight: FontWeight.bold,
                             ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(width * 0.02),
-                                child: Text(
-                                  surah.tafsir.id,
-                                  textAlign: TextAlign.justify,
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.black87,
-                                    fontSize: width * 0.045,
+                            backgroundColor: Colors.pink[50],
+                            radius: 20,
+                            content: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxHeight: height * 0.7,
+                              ),
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  width: width * 0.9,
+                                  padding: EdgeInsets.all(width * 0.04),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.pink[50]!, Colors.white],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(width * 0.02),
+                                        child: Text(
+                                          surah.tafsir.id,
+                                          textAlign: TextAlign.justify,
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.black87,
+                                            fontSize: width * 0.045,
+                                          ),
+                                        ),
+                                      ),
+                                      Divider(
+                                        color: Colors.pink[200],
+                                        thickness: 1.5,
+                                        indent: width * 0.1,
+                                        endIndent: width * 0.1,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                              Divider(
-                                color: Colors.pink[200],
-                                thickness: 1.5,
-                                indent: width * 0.1,
-                                endIndent: width * 0.1,
-                              ),
-                            ],
-                          ),
+                            ),
+                          );
+
+                          controller.isLoading.value = false;
+                        }
+                      },
+                      child: Card(
+                        elevation: 8,
+                        shadowColor: Colors.pink[200],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(width * 0.05),
+                          child: controller.isLoading.isFalse
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      surah.name.transliteration.id
+                                          .toUpperCase(),
+                                      style: GoogleFonts.poppins(
+                                        fontSize: width * 0.08,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.pink[800],
+                                      ),
+                                    ),
+                                    SizedBox(height: height * 0.02),
+                                    Text(
+                                      surah.name.translation.id.toUpperCase(),
+                                      style: GoogleFonts.poppins(
+                                        fontSize: width * 0.06,
+                                        color: Colors.grey[600],
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: height * 0.02),
+                                    Text(
+                                      "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: width * 0.04,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                    SizedBox(height: height * 0.02),
+                                    Text(
+                                      "Tekan untuk membaca tafsir",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: width * 0.04,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Center(
+                                  child: AnimatedTextKit(
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        'Mohon tunggu...',
+                                        textStyle: GoogleFonts.poppins(
+                                          fontSize: width * 0.06,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black87,
+                                        ),
+                                        speed: Duration(milliseconds: 200),
+                                      ),
+                                    ],
+                                    totalRepeatCount: 2,
+                                  ),
+                                ),
                         ),
                       ),
-                    ),
-                  ),
-                  child: Card(
-                    elevation: 8,
-                    shadowColor: Colors.pink[200],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(width * 0.05),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            surah.name.transliteration.id.toUpperCase(),
-                            style: GoogleFonts.poppins(
-                              fontSize: width * 0.08,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.pink[800],
-                            ),
-                          ),
-                          SizedBox(height: height * 0.02),
-                          Text(
-                            surah.name.translation.id.toUpperCase(),
-                            style: GoogleFonts.poppins(
-                              fontSize: width * 0.06,
-                              color: Colors.grey[600],
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: height * 0.02),
-                          Text(
-                            "${surah.numberOfVerses} Ayat | ${surah.revelation.id}",
-                            style: GoogleFonts.poppins(
-                              fontSize: width * 0.04,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          SizedBox(height: height * 0.02),
-                          Text(
-                            "Tekan untuk membaca tafsir",
-                            style: GoogleFonts.poppins(
-                              fontSize: width * 0.04,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
               SizedBox(height: height * 0.05),

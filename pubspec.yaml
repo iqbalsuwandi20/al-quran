@@ -40,6 +40,7 @@ dependencies:
   icons_launcher: ^3.0.0
   google_fonts: ^6.2.1
   just_audio: ^0.9.42
+  animated_text_kit: ^4.2.2
 
 icons_launcher:
   image_path: "assets/images/icon.png"

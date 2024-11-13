@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,7 +33,7 @@ class HomeView extends GetView<HomeController> {
         actions: [
           IconButton(
             onPressed: () {
-              Routes.SEARCH_SCREEN;
+              Get.toNamed(Routes.SEARCH_SCREEN);
             },
             icon: AnimatedSwitcher(
               duration: Duration(milliseconds: 300),
@@ -220,7 +221,7 @@ class HomeView extends GetView<HomeController> {
                                       controller.isLoading.value = true;
 
                                       await Future.delayed(
-                                          Duration(milliseconds: 500));
+                                          Duration(seconds: 5));
 
                                       await Get.toNamed(
                                           Routes.DETAIL_SURAH_SCREEN,
@@ -335,15 +336,24 @@ class HomeView extends GetView<HomeController> {
                                             child: controller
                                                         .selectedIndex.value ==
                                                     index
-                                                ? Text(
-                                                    "Mohon tunggu..",
-                                                    style: GoogleFonts.poppins(
-                                                      fontSize:
-                                                          screenWidth * 0.055,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.black87,
-                                                    ),
+                                                ? AnimatedTextKit(
+                                                    animatedTexts: [
+                                                      TyperAnimatedText(
+                                                        'Mohon tunggu...',
+                                                        textStyle:
+                                                            GoogleFonts.poppins(
+                                                          fontSize:
+                                                              screenWidth *
+                                                                  0.055,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.black87,
+                                                        ),
+                                                        speed: Duration(
+                                                            milliseconds: 200),
+                                                      ),
+                                                    ],
+                                                    totalRepeatCount: 2,
                                                   )
                                                 : Text(""),
                                           ),
@@ -427,7 +437,7 @@ class HomeView extends GetView<HomeController> {
                                       controller.isLoading.value = true;
 
                                       await Future.delayed(
-                                          Duration(milliseconds: 500));
+                                          Duration(seconds: 5));
 
                                       await Get.toNamed(
                                         Routes.DETAIL_JUZ_SCREEN,
@@ -572,15 +582,24 @@ class HomeView extends GetView<HomeController> {
                                             child: controller
                                                         .selectedIndex.value ==
                                                     index
-                                                ? Text(
-                                                    "Mohon tunggu..",
-                                                    style: GoogleFonts.poppins(
-                                                      fontSize:
-                                                          screenWidth * 0.055,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      color: Colors.black87,
-                                                    ),
+                                                ? AnimatedTextKit(
+                                                    animatedTexts: [
+                                                      TyperAnimatedText(
+                                                        'Mohon tunggu...',
+                                                        textStyle:
+                                                            GoogleFonts.poppins(
+                                                          fontSize:
+                                                              screenWidth *
+                                                                  0.055,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.black87,
+                                                        ),
+                                                        speed: Duration(
+                                                            milliseconds: 200),
+                                                      ),
+                                                    ],
+                                                    totalRepeatCount: 3,
                                                   )
                                                 : Text(""),
                                           ),
