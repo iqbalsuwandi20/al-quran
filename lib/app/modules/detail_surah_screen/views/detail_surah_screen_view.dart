@@ -294,7 +294,14 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                               radius: 15,
                                               actions: [
                                                 ElevatedButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    controller.addBookmark(
+                                                      true,
+                                                      snapshot.data!,
+                                                      verse,
+                                                      index,
+                                                    );
+                                                  },
                                                   style:
                                                       ElevatedButton.styleFrom(
                                                     backgroundColor:
@@ -318,7 +325,14 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                                   ),
                                                 ),
                                                 ElevatedButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    controller.addBookmark(
+                                                      false,
+                                                      snapshot.data!,
+                                                      verse,
+                                                      index,
+                                                    );
+                                                  },
                                                   style:
                                                       ElevatedButton.styleFrom(
                                                     backgroundColor:
