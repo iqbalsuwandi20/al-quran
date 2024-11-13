@@ -339,7 +339,7 @@ class HomeView extends GetView<HomeController> {
                                                 ? AnimatedTextKit(
                                                     animatedTexts: [
                                                       TyperAnimatedText(
-                                                        'Mohon tunggu...',
+                                                        'Tunggu...',
                                                         textStyle:
                                                             GoogleFonts.poppins(
                                                           fontSize:
@@ -585,7 +585,7 @@ class HomeView extends GetView<HomeController> {
                                                 ? AnimatedTextKit(
                                                     animatedTexts: [
                                                       TyperAnimatedText(
-                                                        'Mohon tunggu...',
+                                                        'Tunggu...',
                                                         textStyle:
                                                             GoogleFonts.poppins(
                                                           fontSize:

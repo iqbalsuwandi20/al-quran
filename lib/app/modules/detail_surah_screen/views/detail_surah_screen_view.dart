@@ -178,7 +178,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                   child: AnimatedTextKit(
                                     animatedTexts: [
                                       TyperAnimatedText(
-                                        'Mohon tunggu...',
+                                        'Tunggu...',
                                         textStyle: GoogleFonts.poppins(
                                           fontSize: width * 0.06,
                                           fontWeight: FontWeight.w600,
@@ -274,7 +274,75 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                     return Row(
                                       children: [
                                         IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Get.defaultDialog(
+                                              title: 'Pilih Jenis Penanda'
+                                                  .toUpperCase(),
+                                              middleText: 'Pilih jenis penanda'
+                                                  .toLowerCase(),
+                                              titleStyle: GoogleFonts.poppins(
+                                                fontSize: width * 0.08,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.pink[800],
+                                              ),
+                                              middleTextStyle:
+                                                  GoogleFonts.poppins(
+                                                fontSize: width * 0.06,
+                                                color: Colors.grey[600],
+                                              ),
+                                              backgroundColor: Colors.pink[50],
+                                              radius: 15,
+                                              actions: [
+                                                ElevatedButton(
+                                                  onPressed: () {},
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.pink[700],
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    "terakhir dibaca"
+                                                        .toUpperCase(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width * 0.05,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {},
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.pink[700],
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    "penanda".toUpperCase(),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: width * 0.05,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                           icon: Icon(
                                             Icons.bookmark_add_outlined,
                                             color: Colors.pink[700],

@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,25 +55,55 @@ class IntroductionScreenView extends GetView<IntroductionScreenController> {
             SizedBox(height: size.height * 0.05),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pink[700],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
-                  elevation: 6,
-                  shadowColor: Colors.pinkAccent.withOpacity(0.4),
-                ),
-                onPressed: () => Get.offAllNamed(Routes.HOME),
-                child: Text(
-                  "MULAI",
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: size.width * 0.05,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              child: Obx(
+                () {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pink[700],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(vertical: size.height * 0.02),
+                      elevation: 6,
+                      shadowColor: Colors.pinkAccent.withOpacity(0.4),
+                    ),
+                    onPressed: () async {
+                      if (controller.isLoading.isFalse) {
+                        controller.isLoading.value = true;
+
+                        await Future.delayed(Duration(seconds: 5));
+
+                        await Get.offAllNamed(Routes.HOME);
+
+                        controller.isLoading.value = true;
+                      }
+                    },
+                    child: controller.isLoading.isFalse
+                        ? Text(
+                            "MULAI",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: size.width * 0.05,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : AnimatedTextKit(
+                            animatedTexts: [
+                              TyperAnimatedText(
+                                'Tunggu...',
+                                textStyle: GoogleFonts.poppins(
+                                  fontSize: size.width * 0.05,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                                speed: Duration(milliseconds: 200),
+                              ),
+                            ],
+                            totalRepeatCount: 2,
+                          ),
+                  );
+                },
               ),
             ),
           ],
