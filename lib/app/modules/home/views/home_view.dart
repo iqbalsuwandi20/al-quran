@@ -63,96 +63,272 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
               SizedBox(height: screenHeight * 0.015),
-              Obx(
-                () {
-                  return GestureDetector(
-                    onTap: () async {
-                      if (controller.isLoading.isFalse) {
-                        controller.isLoading.value = true;
-
-                        await Future.delayed(Duration(milliseconds: 500));
-
-                        Get.toNamed(Routes.LAST_READ_SCREEN);
-
-                        controller.isLoading.value = false;
-                      }
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(screenWidth * 0.05),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: controller.isLoading.isFalse
-                            ? LinearGradient(
-                                colors: [Colors.pink[200]!, Colors.pink[400]!],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )
-                            : LinearGradient(
-                                colors: [
-                                  Colors.grey[300]!,
-                                  Colors.grey[500]!,
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.pink.withOpacity(0.2),
-                            blurRadius: 10,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            bottom: -5,
-                            right: 0,
-                            child: Opacity(
-                              opacity: 0.7,
-                              child: Image.asset(
-                                "assets/images/quran.png",
-                                width: screenWidth * 0.25,
-                                height: screenWidth * 0.25,
-                              ),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.menu_book_outlined,
-                                      color: Colors.white),
-                                  SizedBox(width: screenWidth * 0.02),
-                                  Text(
-                                    "Tekan terakhir dibaca",
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontSize: screenWidth * 0.03),
+              GetBuilder<HomeController>(
+                builder: (c) {
+                  return FutureBuilder<Map<String, dynamic>?>(
+                    future: c.getLastRead(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(
+                          padding: EdgeInsets.all(screenWidth * 0.05),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: c.isLoading.isFalse
+                                ? LinearGradient(
+                                    colors: [
+                                      Colors.pink[200]!,
+                                      Colors.pink[400]!
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  )
+                                : LinearGradient(
+                                    colors: [
+                                      Colors.grey[300]!,
+                                      Colors.grey[500]!,
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
-                                ],
-                              ),
-                              SizedBox(height: screenHeight * 0.015),
-                              Text(
-                                "Al-Fatihah",
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: screenWidth * 0.06,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                "Juz 1 | Ayat 5",
-                                style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: screenWidth * 0.04),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.pink.withOpacity(0.2),
+                                blurRadius: 10,
+                                offset: Offset(0, 4),
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                bottom: -5,
+                                right: 0,
+                                child: Opacity(
+                                  opacity: 0.7,
+                                  child: Image.asset(
+                                    "assets/images/quran.png",
+                                    width: screenWidth * 0.25,
+                                    height: screenWidth * 0.25,
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.menu_book_outlined,
+                                          color: Colors.white),
+                                      SizedBox(width: screenWidth * 0.02),
+                                      Text(
+                                        "Tekan terakhir dibaca",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: screenWidth * 0.03),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: screenHeight * 0.015),
+                                  AnimatedTextKit(
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        'Tunggu...',
+                                        textStyle: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: screenWidth * 0.06,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        speed: Duration(milliseconds: 200),
+                                      ),
+                                    ],
+                                    totalRepeatCount: 2,
+                                  ),
+                                  Text(
+                                    "",
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: screenWidth * 0.04),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      return Obx(
+                        () {
+                          Map<String, dynamic>? lastRead = snapshot.data;
+
+                          return GestureDetector(
+                            onLongPress: () {
+                              if (lastRead != null) {
+                                Get.defaultDialog(
+                                  title: 'Yakin untuk menghapus?'.toUpperCase(),
+                                  middleText: 'saya yakin'.toLowerCase(),
+                                  titleStyle: GoogleFonts.poppins(
+                                    fontSize: screenWidth * 0.06,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.pink[800],
+                                  ),
+                                  middleTextStyle: GoogleFonts.poppins(
+                                    fontSize: screenWidth * 0.05,
+                                    color: Colors.grey[600],
+                                  ),
+                                  backgroundColor: Colors.pink[50],
+                                  radius: 15,
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () => Get.back(),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.pink[700],
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "batal".toUpperCase(),
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        c.deleteBookmark(lastRead['id']);
+
+                                        Get.back();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.pink[700],
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        "Hapus".toUpperCase(),
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            },
+                            onTap: () async {
+                              if (c.isLoading.isFalse) {
+                                controller.isLoading.value = true;
+
+                                await Future.delayed(
+                                    Duration(milliseconds: 500));
+
+                                Get.toNamed(Routes.LAST_READ_SCREEN);
+
+                                c.isLoading.value = false;
+                              }
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(screenWidth * 0.05),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: c.isLoading.isFalse
+                                    ? LinearGradient(
+                                        colors: [
+                                          Colors.pink[200]!,
+                                          Colors.pink[400]!
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      )
+                                    : LinearGradient(
+                                        colors: [
+                                          Colors.grey[300]!,
+                                          Colors.grey[500]!,
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.pink.withOpacity(0.2),
+                                    blurRadius: 10,
+                                    offset: Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    bottom: -5,
+                                    right: 0,
+                                    child: Opacity(
+                                      opacity: 0.7,
+                                      child: Image.asset(
+                                        "assets/images/quran.png",
+                                        width: screenWidth * 0.25,
+                                        height: screenWidth * 0.25,
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(Icons.menu_book_outlined,
+                                              color: Colors.white),
+                                          SizedBox(width: screenWidth * 0.02),
+                                          Text(
+                                            "Tekan terakhir dibaca",
+                                            style: GoogleFonts.poppins(
+                                                color: Colors.white,
+                                                fontSize: screenWidth * 0.03),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: screenHeight * 0.015),
+                                      Text(
+                                        lastRead == null
+                                            ? ""
+                                            : "Tekan agak lama untuk hapus",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: screenWidth * 0.03),
+                                      ),
+                                      Text(
+                                        lastRead == null
+                                            ? ""
+                                            : lastRead['surah']
+                                                .toString()
+                                                .replaceAll("+", "'"),
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: screenWidth * 0.06,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        lastRead == null
+                                            ? ""
+                                            : "Juz ${lastRead['juz']} | Ayat ${lastRead['ayat']}",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: screenWidth * 0.04),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   );
                 },
               ),

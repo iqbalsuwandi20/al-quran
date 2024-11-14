@@ -5,12 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../data/models/detail_surah.dart' as detail;
 import '../../../data/models/surah.dart';
+import '../../home/controllers/home_controller.dart';
 import '../controllers/detail_surah_screen_controller.dart';
 
 class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
   DetailSurahScreenView({super.key});
 
   final Surah surah = Get.arguments;
+  final homeC = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -294,13 +296,16 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
                                               radius: 15,
                                               actions: [
                                                 ElevatedButton(
-                                                  onPressed: () {
-                                                    controller.addBookmark(
+                                                  onPressed: () async {
+                                                    await controller
+                                                        .addBookmark(
                                                       true,
                                                       snapshot.data!,
                                                       verse,
                                                       index,
                                                     );
+
+                                                    homeC.update();
                                                   },
                                                   style:
                                                       ElevatedButton.styleFrom(

@@ -20,8 +20,8 @@ class DetailSurahScreenController extends GetxController {
 
   DatabaseManager database = DatabaseManager.instance;
 
-  void addBookmark(bool lastRead, detail.DetailSurah surah, detail.Verse ayat,
-      int indexAyat) async {
+  Future<void> addBookmark(bool lastRead, detail.DetailSurah surah,
+      detail.Verse ayat, int indexAyat) async {
     Database db = await database.db;
 
     bool flagExist = false;
