@@ -12,6 +12,7 @@ class DetailSurahScreenView extends GetView<DetailSurahScreenController> {
   DetailSurahScreenView({super.key});
 
   final Surah surah = Get.arguments;
+
   final homeC = Get.find<HomeController>();
 
   @override
